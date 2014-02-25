@@ -1,0 +1,35 @@
+
+<html><head><title>Pip Install Listing</title><meta name="api-version" value="1"/></head><body>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-support-mongoengine-1.0.tar.gz'>ally-support-mongoengine</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-api-1.0.tar.gz'>ally-api</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-service-gateway-1.0.tar.gz'>ally-service-gateway</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-http-mongrel2-server-1.0.tar.gz'>ally-http-mongrel2-server</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-core-http-1.0.tar.gz'>ally-core-http</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-indexing-provider-1.0.tar.gz'>ally-indexing-provider</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-service-assemblage-1.0.tar.gz'>ally-service-assemblage</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-security-user-1.0.tar.gz'>ally-security-user</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-language-1.0.tar.gz'>ally-language</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-gui-action-1.0.tar.gz'>ally-gui-action</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-support-sqlalchemy-1.0.tar.gz'>ally-support-sqlalchemy</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-hr-user-1.0.tar.gz'>ally-hr-user</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-gateway-acl-1.0.tar.gz'>ally-gateway-acl</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-service-gateway-recaptcha-1.0.tar.gz'>ally-service-gateway-recaptcha</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-plugin-1.0.tar.gz'>ally-plugin</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-documentation-1.0.tar.gz'>ally-documentation</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-http-1.0.tar.gz'>ally-http</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-gateway-1.0.tar.gz'>ally-gateway</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-service-cdm-1.0.tar.gz'>ally-service-cdm</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-internationalization-1.0.tar.gz'>ally-internationalization</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-distribution-1.0.tar.gz'>ally-distribution</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-security-rbac-1.0.tar.gz'>ally-security-rbac</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-core-1.0.tar.gz'>ally-core</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-support-cdm-1.0.tar.gz'>ally-support-cdm</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-user-management-1.0.tar.gz'>ally-user-management</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-patch-praha-1.0.tar.gz'>ally-patch-praha</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-gui-core-1.0.tar.gz'>ally-gui-core</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-indexing-1.0.tar.gz'>ally-indexing</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-http-asyncore-server-1.0.tar.gz'>ally-http-asyncore-server</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-rest-basic-1.0.tar.gz'>ally-rest-basic</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-security-1.0.tar.gz'>ally-security</a><br/>
+<a href='https://raw.github.com/superdesk/ally-py-common/tree/master/packages/ally-1.0.tar.gz'>ally</a><br/>
+</body></html>
