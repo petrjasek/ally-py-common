@@ -23,7 +23,7 @@ setup(platforms=['all'],
       packages=[],
       version='1.0',
       dependency_links=[
-        'git+https://github.com/sourcefabric/Ally-Py/tree/master/components#egg=ally-core-http-1.0'
+        'git+https://github.com/sourcefabric/Ally-Py/tree/master/components#egg=ally_core_http-1.0'
         ]
       )
 
