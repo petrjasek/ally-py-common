@@ -8,10 +8,6 @@ from setuptools import setup
 
 # --------------------------------------------------------------------
 
-class my_install_scripts(install_scripts):
-    def run(self):
-        install_scripts.run(self)
-        
 setup(platforms=['all'],
       zip_safe=True,
       license='GPL v3',
