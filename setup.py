@@ -29,7 +29,7 @@ class CustomDevelopCommand(develop):
     
     def run(self):
         print("================================================")
-        install.run(self)
+        develop.run(self)
         
 setup(platforms=['all'],
       zip_safe=True,
