@@ -5,7 +5,7 @@ Created on Feb 28, 2014
 '''
 
 from setuptools import setup
-from setuptools.command.install import install
+from distutils.command.install import install
 
 # --------------------------------------------------------------------
 
