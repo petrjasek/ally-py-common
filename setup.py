@@ -13,19 +13,9 @@ from setuptools.command.develop import develop
 class CustomDevelopCommand(develop):
     """Customized setuptools install command - prints a friendly greeting."""
     
-    user_options = develop.user_options + [
-        # Select installation scheme and set base director(y|ies)
-        ('home=', None,
-         "(Unix only) home directory to install under")
-        ]
-    
     def __init__(self, dist):
         print("-------------------", dist)
         super().__init__(dist)
-        
-    def initialize_options(self):
-        self.home = None
-        develop.initialize_options(self)
     
     def run(self):
         print("================================================")
