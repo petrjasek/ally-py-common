@@ -4,6 +4,7 @@ Created on Feb 28, 2014
 @author: chupy
 '''
 
+
 from setuptools import setup
 from setuptools.command.develop import develop
 
@@ -21,6 +22,10 @@ class CustomDevelopCommand(develop):
     def __init__(self, dist):
         print("-------------------", dist)
         super().__init__(dist)
+        
+    def initialize_options(self):
+        self.home = None
+        develop.initialize_options(self)
     
     def run(self):
         print("================================================")
