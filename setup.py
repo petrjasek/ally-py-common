@@ -11,6 +11,11 @@ from distutils.command.install import install
 
 class CustomInstallCommand(install):
     """Customized setuptools install command - prints a friendly greeting."""
+    
+    def __init__(self, dist):
+        print("-------------------", dist)
+        super().__init__(dist)
+        
     def run(self):
         print("================================================")
         install.run(self)
