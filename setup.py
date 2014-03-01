@@ -43,8 +43,5 @@ setup(platforms=['all'],
       long_description='The components that represent the basic ally user management.',
       name='ally-user-management',
       version='1.0',
-    cmdclass={
-      'develop': CustomDevelopCommand,
-      },
       )
 
