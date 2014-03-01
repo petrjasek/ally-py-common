@@ -5,17 +5,23 @@ Created on Feb 28, 2014
 '''
 
 from setuptools import setup
-from distutils.command.install import install
+from setuptools.command.develop import develop
 
 # --------------------------------------------------------------------
 
-class CustomInstallCommand(install):
+class CustomDevelopCommand(develop):
     """Customized setuptools install command - prints a friendly greeting."""
+    
+    user_options = develop.user_options + [
+        # Select installation scheme and set base director(y|ies)
+        ('home=', None,
+         "(Unix only) home directory to install under")
+        ]
     
     def __init__(self, dist):
         print("-------------------", dist)
         super().__init__(dist)
-        
+    
     def run(self):
         print("================================================")
         install.run(self)
@@ -33,7 +39,7 @@ setup(platforms=['all'],
       name='ally-user-management',
       version='1.0',
     cmdclass={
-      'install': CustomInstallCommand,
+      'develop': CustomDevelopCommand,
       },
       )
 
