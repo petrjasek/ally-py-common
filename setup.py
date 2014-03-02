@@ -4,23 +4,24 @@ Created on Feb 28, 2014
 @author: chupy
 '''
 
-
 from setuptools import setup
 from setuptools.command.develop import develop
 
 # --------------------------------------------------------------------
 
-class CustomDevelopCommand(develop):
-    """Customized setuptools install command - prints a friendly greeting."""
+class AllyDevelopCommand(develop):
+    ''' Provides the ally packages development install.'''
     
-    def __init__(self, dist):
-        print("-------------------", dist)
-        super().__init__(dist)
+    user_options = develop.user_options + [
+        ('add_git=', None, 'Additional git repositories to fetch ally packages.')]
+    
+    def initialize_options(self):
+        self.add_git = None
+        super().initialize_options()
     
     def run(self):
-        print("================================================")
-        print(self.__dict__)
-        develop.run(self)
+        print("================================================", self.add_git)
+        super().run()
         
 setup(platforms=['all'],
       zip_safe=True,
@@ -35,7 +36,6 @@ setup(platforms=['all'],
       name='ally-user-management',
       version='1.0',
       cmdclass={
-      'develop': CustomDevelopCommand,
-      },
+                'develop': AllyDevelopCommand,
+                },
       )
-
