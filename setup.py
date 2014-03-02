@@ -19,6 +19,7 @@ class CustomDevelopCommand(develop):
     
     def run(self):
         print("================================================")
+        print(dir(self))
         develop.run(self)
         
 setup(platforms=['all'],
