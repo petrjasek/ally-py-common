@@ -12,16 +12,14 @@ from setuptools.command.develop import develop
 class AllyDevelopCommand(develop):
     ''' Provides the ally packages development install.'''
     
+    description = 'install ally packages in \'development mode\''
+    
     user_options = develop.user_options + [
         ('add=', None, 'Additional git repositories to fetch ally packages.')
         ]
     
-    def initialize_options(self):
-        self.add = None
-        super().initialize_options()
-    
     def run(self):
-        print("================================================", self.add_git)
+        print("================================================", self.add)
         super().run()
         
 setup(platforms=['all'],
