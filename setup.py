@@ -6,9 +6,9 @@ Created on Feb 28, 2014
 
 from setuptools import setup
 from setuptools.command.develop import develop
+from distutils.cmd import Command
 
 # --------------------------------------------------------------------
-
 
 class AllyDevelopCommand(Command):
     ''' Provides the ally packages development install.'''
