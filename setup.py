@@ -5,24 +5,25 @@ Created on Feb 28, 2014
 '''
 
 from setuptools import setup
-from setuptools.command.develop import develop
 from distutils.cmd import Command
 
 # --------------------------------------------------------------------
 
-class AllyDevelopCommand(Command):
+class AllyDevelop(Command):
     ''' Provides the ally packages development install.'''
     
     description = 'install ally packages in \'development mode\''
     
-    user_options = develop.user_options + [
+    user_options = [
         ('add=', None, 'Additional git repositories to fetch ally packages, in order to provide more then one git repository '\
          'then provide a pipe \'|\' separator between the git URLs. The git URLs need to be identical to those in \'-e\' command.')
         ]
     
     def initialize_options(self):
         self.add = None
-        super().initialize_options()
+        self.distribution._set_command_options(
+            self, self.distribution.get_option_dict('AllyDevelop')
+        )
     
     def run(self):
         print("================================================", self.add)
