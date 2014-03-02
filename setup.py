@@ -13,10 +13,11 @@ class AllyDevelopCommand(develop):
     ''' Provides the ally packages development install.'''
     
     user_options = develop.user_options + [
-        ('add=', None, 'Additional git repositories to fetch ally packages.')]
+        ('add=', None, 'Additional git repositories to fetch ally packages.')
+        ]
     
     def initialize_options(self):
-        self.add_git = None
+        self.add = None
         super().initialize_options()
     
     def run(self):
