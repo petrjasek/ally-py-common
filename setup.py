@@ -9,13 +9,15 @@ from setuptools.command.develop import develop
 
 # --------------------------------------------------------------------
 
-class AllyDevelopCommand(develop):
+
+class AllyDevelopCommand(Command):
     ''' Provides the ally packages development install.'''
     
     description = 'install ally packages in \'development mode\''
     
     user_options = develop.user_options + [
-        ('add=', None, 'Additional git repositories to fetch ally packages.')
+        ('add=', None, 'Additional git repositories to fetch ally packages, in order to provide more then one git repository '\
+         'then provide a pipe \'|\' separator between the git URLs. The git URLs need to be identical to those in \'-e\' command.')
         ]
     
     def initialize_options(self):
@@ -24,7 +26,6 @@ class AllyDevelopCommand(develop):
     
     def run(self):
         print("================================================", self.add)
-        super().run()
         
 setup(platforms=['all'],
       zip_safe=True,
