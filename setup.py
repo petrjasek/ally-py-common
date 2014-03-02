@@ -35,8 +35,9 @@ class AllyDevelop(develop):
             badFragment = False
             if url.fragment:
                 fragments = parse_qs(url.fragment)
-                print('**********', fragments)
-                if 'egg' not in fragments: badFragment = True
+                egg = fragments.get('egg')
+                if not egg: badFragment = True
+                else: egg = egg[0]
             else: badFragment = True
             if badFragment:
                 raise DistutilsOptionError('Missing the git URL egg fragment ex:\'https://github.com/../somwhere#eqq=somwhere\'')
