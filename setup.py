@@ -8,7 +8,7 @@ from setuptools import setup
 from setuptools.command.develop import develop
 from os.path import os
 from distutils.errors import DistutilsOptionError
-from urllib.parse import parse_qs
+from urllib.parse import parse_qs, urlsplit
 from pip.vcs.git import Git
 
 # --------------------------------------------------------------------
