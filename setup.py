@@ -41,6 +41,6 @@ setup(platforms=['all'],
       name='ally-user-management',
       version='1.0',
       cmdclass={
-                'develop': AllyDevelopCommand,
+                'develop': AllyDevelop,
                 },
       )
