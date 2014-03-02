@@ -18,8 +18,12 @@ class AllyDevelopCommand(develop):
         ('add=', None, 'Additional git repositories to fetch ally packages.')
         ]
     
+    def initialize_options(self):
+        self.add = None
+        super().initialize_options()
+    
     def run(self):
-        print("================================================", self.add)
+        print("================================================", self.add_git)
         super().run()
         
 setup(platforms=['all'],
