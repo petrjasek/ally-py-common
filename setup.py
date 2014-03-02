@@ -23,7 +23,7 @@ class AllyDevelopCommand(develop):
         super().initialize_options()
     
     def run(self):
-        print("================================================", self.add_git)
+        print("================================================", self.add)
         super().run()
         
 setup(platforms=['all'],
