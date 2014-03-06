@@ -12,6 +12,7 @@ Provides the self path for a model.
 import logging
 
 from ally.container.ioc import injected
+from ally.core.impl.processor.encoder.base import ExportingSupport
 from ally.core.spec.transform import ISpecifier, ITransfrom
 from ally.design.processor.attribute import requires, defines, optional
 from ally.design.processor.context import Context
@@ -19,6 +20,7 @@ from ally.design.processor.handler import HandlerProcessor
 from ally.support.util_spec import IDo
 
 from ally.core.http_patch.impl.index import ADJUST_SELF_DISCARD
+from urllib.parse import urlencode
 
 
 # --------------------------------------------------------------------
@@ -45,8 +47,18 @@ class Create(Context):
     ''')
     # ---------------------------------------------------------------- Optional
     encoder = optional(ITransfrom)
+
+class Support(Context):
+    '''
+    The support context.
+    '''
+    # ---------------------------------------------------------------- Optional
+    parameters = optional(list)
     
 # --------------------------------------------------------------------
+
+selfPathExport = ExportingSupport(Support)
+# The encoding path support export.
 
 @injected
 class SelfPathAttributeEncode(HandlerProcessor):
@@ -106,5 +118,10 @@ class AttributeSelfPath(ISpecifier):
         attributes = specifications.get('attributes')
         if attributes is None: attributes = specifications['attributes'] = {}
         assert isinstance(attributes, dict), 'Invalid attributes %s' % attributes
+        pathSelf = self.invoker.doEncodePath(support)
+        if Support.parameters in support and support.parameters:
+            assert isinstance(support, Support)
+            print(urlencode(support.parameters))
+        
         attributes[self.nameRef] = self.invoker.doEncodePath(support)
         specifications['adjust'] = ADJUST_SELF_DISCARD
