@@ -9,8 +9,10 @@ Created on Mar 6, 2014
 Provides the processor setup patches.
 '''
 
+import logging
+
 from __setup__.ally_core_http.processor import updateHeadersCors, \
-    headersCorsAllow, updateAssemblyResources, assemblyResources
+    headersCorsAllow, read_from_params
 from __setup__.ally_http.processor import contentTypeResponseEncode
 from ally.container import ioc
 from ally.design.processor.handler import Handler
@@ -19,16 +21,28 @@ from ally.core.http_patch.impl.processor.headers.content_type import ContentType
 
 
 # --------------------------------------------------------------------
-@ioc.entity
+log = logging.getLogger(__name__)
+
+# --------------------------------------------------------------------
+
+@ioc.replace(read_from_params)
+def patch_read_from_params(): return False
+
+try: from __setup__.ally_assemblage.processor import read_from_params as assemblage_read_from_params
+except: log.info('No assemblage present, thus no patching will occur for it.')
+else:
+    @ioc.replace(assemblage_read_from_params)
+    def patch_assemblage_read_from_params(): return False
+    
+# --------------------------------------------------------------------
+
+@ioc.replace(contentTypeResponseEncode)
 def contentTypeResponseEncodeNoCharSet() -> Handler: return ContentTypeResponseEncodeHandler()
 
 # --------------------------------------------------------------------
 
-@ioc.after(updateAssemblyResources)
-def updateAssemblyResourcesForPatch():
-    assemblyResources().replace(contentTypeResponseEncode(), contentTypeResponseEncodeNoCharSet())
-                            
+# TODO: remove this when the gateway is UP.
 @ioc.after(updateHeadersCors)
 def updateHeadersCorsForAuthorization():
-    headersCorsAllow().add('Authorization')
+    headersCorsAllow().add('Authorization') 
 

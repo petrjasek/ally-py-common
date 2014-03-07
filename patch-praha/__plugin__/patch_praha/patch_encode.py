@@ -10,12 +10,14 @@ Provides the encode setup patches.
 '''
 
 from __setup__.ally_core.encode import assemblyEncode, modelEncode, \
-    assemblyEncodeExport
-from __setup__.ally_core_http.encode import updateAssemblyEncodeWithPath,\
+    assemblyEncodeExport, collectionEncode
+from __setup__.ally_core_http.encode import updateAssemblyEncodeWithPath, \
     updateAssemblyEncodeExportForPath
 from ally.container import ioc
 from ally.design.processor.handler import Handler
 
+from ally.core.http_patch.impl.processor.encoder.ref_path import RefPathAttributeEncode,\
+    refPathExport
 from ally.core.http_patch.impl.processor.encoder.self_path import SelfPathAttributeEncode, \
     selfPathExport
 
@@ -23,14 +25,17 @@ from ally.core.http_patch.impl.processor.encoder.self_path import SelfPathAttrib
 # --------------------------------------------------------------------
 @ioc.entity
 def selfPathAttributeEncode() -> Handler: return SelfPathAttributeEncode()
-  
+
+@ioc.entity
+def refPathAttributeEncode() -> Handler: return RefPathAttributeEncode()
+
 # --------------------------------------------------------------------
 
 @ioc.after(updateAssemblyEncodeWithPath)
 def updateAssemblyEncodeWithPathWithSelf():
     assemblyEncode().add(selfPathAttributeEncode(), before=modelEncode())
+    assemblyEncode().add(refPathAttributeEncode(), before=collectionEncode())
 
 @ioc.after(updateAssemblyEncodeExportForPath)
 def updateAssemblyEncodeExportForSelPath():
-    pass
-    #assemblyEncodeExport().add(selfPathExport)
+    assemblyEncodeExport().add(selfPathExport, refPathExport)

@@ -19,7 +19,7 @@ from ally.core.http_patch.impl.index import BLOCKS_PATCH
 # --------------------------------------------------------------------
 
 @ioc.replace(content_types_json)
-def replace_content_types_json() -> dict:
+def patch_content_types_json() -> dict:
     '''
     The JSON content types, a map that contains as a key the recognized mime type and as a value the normalize mime type,
     if none then the same key mimie type will be used for response
@@ -32,7 +32,7 @@ def replace_content_types_json() -> dict:
             }
 
 @ioc.replace(content_types_xml)
-def replace_content_types_xml() -> dict:
+def patch_content_types_xml() -> dict:
     '''
     The XML content types, a map that contains as a key the recognized mime type and as a value the normalize mime type,
     if none then the same key mimie type will be used for response
