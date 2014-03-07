@@ -10,10 +10,13 @@ Provides the ally core http setup patch.
 '''
 
 from __setup__.ally_core_http.server import root_uri_resources
+from __setup__.ally_http.server import server_scheme
 from ally.container import ioc
- 
- 
+
+
 # --------------------------------------------------------------------
 @ioc.replace(root_uri_resources)
 def patch_root_uri_resources(): return None
-    
+
+@ioc.replace(server_scheme)
+def patch_server_scheme(): return ''

@@ -16,6 +16,7 @@ from ally.support.api.entity_ided import IEntityService, QEntity, Entity
 from datetime import datetime
 
 from hr.api.domain_hr import modelHR
+from ally.api.type import Reference
 
 
 # --------------------------------------------------------------------
@@ -30,7 +31,7 @@ class User(Entity):
     LastName = str
     FullName = str
     PhoneNumber = str
-    Avatar = str
+    Avatar = Reference
     CreatedOn = datetime
     Active = bool
     Password = str

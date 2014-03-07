@@ -11,13 +11,16 @@ Provides the processor setup patches.
 
 import logging
 
+from __setup__.ally_core.processor import methodAllow
 from __setup__.ally_core_http.processor import updateHeadersCors, \
-    headersCorsAllow, read_from_params
+    headersCorsAllow, read_from_params, updateAssemblyResources,\
+    assemblyResources
 from __setup__.ally_http.processor import contentTypeResponseEncode
 from ally.container import ioc
 from ally.design.processor.handler import Handler
 
 from ally.core.http_patch.impl.processor.headers.content_type import ContentTypeResponseEncodeHandler
+from ally.core.http_patch.impl.processor.method_patch import MethodPatchHandler
 
 
 # --------------------------------------------------------------------
@@ -39,6 +42,9 @@ else:
 @ioc.replace(contentTypeResponseEncode)
 def contentTypeResponseEncodeNoCharSet() -> Handler: return ContentTypeResponseEncodeHandler()
 
+@ioc.entity
+def methodPatch() -> Handler: return MethodPatchHandler()
+
 # --------------------------------------------------------------------
 
 # TODO: remove this when the gateway is UP.
@@ -46,3 +52,6 @@ def contentTypeResponseEncodeNoCharSet() -> Handler: return ContentTypeResponseE
 def updateHeadersCorsForAuthorization():
     headersCorsAllow().add('Authorization') 
 
+@ioc.after(updateAssemblyResources)
+def updateAssemblyResourcesPatch():
+    assemblyResources().add(methodPatch(), after=methodAllow())
