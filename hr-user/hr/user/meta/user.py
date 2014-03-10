@@ -17,9 +17,8 @@ from sqlalchemy.sql.expression import case
 from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import String, DateTime, Boolean
 
-from hr.user.api.user import User
-
 from hr.meta.metadata_hr import Base
+from hr.user.api.user import User
 
 
 # --------------------------------------------------------------------
@@ -45,9 +44,10 @@ class UserMapped(Base, User):
     CreatedOn = Column('created_on', DateTime, nullable=False, default=current_timestamp())
     Active = Column('active', Boolean, nullable=False, default=True)
     # Expression for hybrid ------------------------------------
-    FullName.expression = lambda cls : case([(cls.FirstName == None, cls.LastName)], else_=
-                                            case([(cls.LastName == None, cls.FirstName)], else_=
-                                                 cls.FirstName + ' ' + cls.LastName))
+    @FullName.expression
+    def FullName(cls):  # @NoSelf
+        return case([(cls.FirstName == None, cls.LastName)], else_=
+                    case([(cls.LastName == None, cls.FirstName)], else_=cls.FirstName + ' ' + cls.LastName))
     # Non REST model attribute --------------------------------------
     password = Column('password', String(255), nullable=False)
     

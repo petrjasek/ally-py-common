@@ -13,7 +13,7 @@ from ally.assemblage.http.impl.processor.assembler import ACTION_STREAM
 from ally.core.impl.index import ADJUST_STANDARD
 from ally.core.impl.processor.render import json, xml
 from ally.indexing.spec.model import Block, Action
-from ally.indexing.spec.perform import skip, feed, feedName, feedValue
+from ally.indexing.spec.perform import skip, feed, feedName, setFlag
 
 
 # --------------------------------------------------------------------
@@ -27,11 +27,10 @@ BLOCKS_PATCH[json.PATTERN_JSON_START_ADJUST % ADJUST_SELF_DISCARD] = \
 Block(
       Action(json.ACTION_JSON_ADJUST,
              feed(json.IND_DECL),
-             feedValue(',')
-            ),
+             setFlag(json.FLAG_COMMA)),
       Action(ACTION_STREAM,
              feed(json.IND_DECL),
-             feedValue(',')),
+             setFlag(json.FLAG_COMMA)),
       )
 BLOCKS_PATCH[json.PATTERN_JSON_END_ADJUST % ADJUST_SELF_DISCARD] = json.BLOCKS_JSON[json.PATTERN_JSON_END_ADJUST % ADJUST_STANDARD]
 

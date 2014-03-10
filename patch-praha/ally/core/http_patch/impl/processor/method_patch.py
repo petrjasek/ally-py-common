@@ -1,7 +1,7 @@
 '''
 Created on Mar 7, 2014
 
-@package: ally core
+@package: patch praha
 @copyright: 2011 Sourcefabric o.p.s.
 @license: http://www.gnu.org/licenses/gpl-3.0.txt
 @author: Gabriel Nistor
