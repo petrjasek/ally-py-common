@@ -138,91 +138,52 @@ class AuthenticationServiceAlchemy(SessionSupport, IAuthenticationService, IClea
         self.session().add(token)
         return token
 
-#     def performLogin(self, authentication):
-#         '''
-#         @see: IAuthenticationService.performLogin
-#         '''
-#         assert isinstance(authentication, Authentication), 'Invalid authentication %s' % authentication
-# 
-#         if authentication.Token is None:
-#             raise InvalidError(_('The login token is required'), Authentication.Token)
-#         if authentication.HashedToken is None:
-#             raise InvalidError(_('The hashed login token is required'), Authentication.HashedToken)
-#         if authentication.UserName is None:
-#             raise InvalidError(_('A user name is required for authentication'), Authentication.UserName)
-# 
-#         olderThan = self.session().query(current_timestamp()).scalar()
-#         olderThan -= self._authenticationTimeOut
-#         sql = self.session().query(TokenMapped)
-#         sql = sql.filter(TokenMapped.Token == authentication.Token)
-#         sql = sql.filter(TokenMapped.requestedOn > olderThan)
-#         if sql.delete() > 0:
-#             commitNow()  # We make sure that the delete has been performed
-# 
-#             sql = self.session().query(UserMapped)
-#             sql = sql.filter(func.lower(UserMapped.UserName) == authentication.UserName.lower()).filter(UserMapped.Active == True)
-#             try: 
-#                 user = sql.one()
-#             except NoResultFound: user = None
-# 
-#             if user is not None:
-#                 assert isinstance(user, UserMapped), 'Invalid user %s' % user
-# 
-#                 hashedToken = hmac.new(bytes(user.UserName, 'utf8'),
-#                                        bytes(user.password, 'utf8'), hashlib.sha512).hexdigest()
-#                 hashedToken = hmac.new(bytes(hashedToken, 'utf8'),
-#                                        bytes(authentication.Token, 'utf8'), hashlib.sha512).hexdigest()
-#                 if authentication.HashedToken == hashedToken:
-#                     hash = hashlib.sha512()
-#                     hash.update(urandom(self.authentication_token_size))
-# 
-#                     login = LoginMapped()
-#                     login.Session = hash.hexdigest()
-#                     login.User = user.Id
-#                     login.CreatedOn = login.AccessedOn = current_timestamp()
-# 
-#                     self.session().add(login)
-#                     return login
-# 
-#         raise InvalidError(_('Invalid credentials'))
-    
     def performLogin(self, authentication):
         '''
         @see: IAuthenticationService.performLogin
         '''
         assert isinstance(authentication, Authentication), 'Invalid authentication %s' % authentication
-
+ 
         if authentication.Token is None:
             raise InvalidError(_('The login token is required'), Authentication.Token)
         if authentication.HashedToken is None:
             raise InvalidError(_('The hashed login token is required'), Authentication.HashedToken)
         if authentication.UserName is None:
             raise InvalidError(_('A user name is required for authentication'), Authentication.UserName)
-        sql = self.session().query(UserMapped)
-        sql = sql.filter(func.lower(UserMapped.UserName) == authentication.UserName.lower()).filter(UserMapped.Active == True)
-        try: 
-            user = sql.one()
-        except NoResultFound: user = None
-
-        if user is not None:
-            assert isinstance(user, UserMapped), 'Invalid user %s' % user
-
-            hashedToken = hmac.new(bytes(user.UserName, 'utf8'),
-                                   bytes(user.password, 'utf8'), hashlib.sha512).hexdigest()
-            hashedToken = hmac.new(bytes(hashedToken, 'utf8'),
-                                   bytes(authentication.Token, 'utf8'), hashlib.sha512).hexdigest()
-
-            hash = hashlib.sha512()
-            hash.update(urandom(self.authentication_token_size))
-
-            login = LoginMapped()
-            login.Session = hash.hexdigest()
-            login.User = user.Id
-            login.CreatedOn = login.AccessedOn = current_timestamp()
-
-            self.session().add(login)
-            return login
-
+ 
+        olderThan = self.session().query(current_timestamp()).scalar()
+        olderThan -= self._authenticationTimeOut
+        sql = self.session().query(TokenMapped)
+        sql = sql.filter(TokenMapped.Token == authentication.Token)
+        sql = sql.filter(TokenMapped.requestedOn > olderThan)
+        if sql.delete() > 0:
+            commitNow()  # We make sure that the delete has been performed
+ 
+            sql = self.session().query(UserMapped)
+            sql = sql.filter(func.lower(UserMapped.UserName) == authentication.UserName.lower()).filter(UserMapped.Active == True)
+            try: 
+                user = sql.one()
+            except NoResultFound: user = None
+ 
+            if user is not None:
+                assert isinstance(user, UserMapped), 'Invalid user %s' % user
+ 
+                hashedToken = hmac.new(bytes(user.UserName, 'utf8'),
+                                       bytes(user.password, 'utf8'), hashlib.sha512).hexdigest()
+                hashedToken = hmac.new(bytes(hashedToken, 'utf8'),
+                                       bytes(authentication.Token, 'utf8'), hashlib.sha512).hexdigest()
+                if authentication.HashedToken == hashedToken:
+                    hash = hashlib.sha512()
+                    hash.update(urandom(self.authentication_token_size))
+ 
+                    login = LoginMapped()
+                    login.Session = hash.hexdigest()
+                    login.User = user.Id
+                    login.CreatedOn = login.AccessedOn = current_timestamp()
+ 
+                    self.session().add(login)
+                    return login
+ 
         raise InvalidError(_('Invalid credentials'))
     
     def performLogout(self, session):
