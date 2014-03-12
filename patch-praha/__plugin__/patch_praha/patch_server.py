@@ -19,4 +19,4 @@ from ally.container import ioc
 def patch_root_uri_resources(): return None
 
 @ioc.replace(server_scheme)
-def patch_server_scheme(): return ''
+def patch_server_scheme(): return 'https'

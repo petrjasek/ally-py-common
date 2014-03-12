@@ -35,8 +35,17 @@ class Invoker(Context):
     The invoker context.
     '''
     # ---------------------------------------------------------------- Required
-    invokerGet = requires(Context)
+    node = requires(Context)
     doEncodePath = requires(IDo)
+
+class Node(Context):
+    '''
+    The node context.
+    '''
+    # ---------------------------------------------------------------- Required
+    invokersGet = defines(dict)
+    invokersUpdate = requires(dict)
+    invokersDelete = requires(dict)
 
 class Create(Context):
     '''
@@ -75,7 +84,7 @@ class SelfPathAttributeEncode(HandlerProcessor):
     
     def __init__(self):
         assert isinstance(self.nameRef, str), 'Invalid reference name %s' % self.nameRef
-        super().__init__()
+        super().__init__(Node=Node)
         
     def process(self, chain, invoker:Invoker, create:Create, **keyargs):
         '''
@@ -83,18 +92,26 @@ class SelfPathAttributeEncode(HandlerProcessor):
         
         Create the self path.
         '''
-        assert isinstance(invoker, Invoker), 'Invalid invoker %s' % invoker
         assert isinstance(create, Create), 'Invalid create %s' % create
+        assert isinstance(invoker, Invoker), 'Invalid invoker %s' % invoker
+        assert isinstance(invoker.node, Node), 'Invalid node %s' % invoker.node
         
-        if not invoker.invokerGet: return  # No get model invokers available
-        if not isinstance(create.objType, TypeModel): return
-        # The type is not for a model, nothing to do, just move along
-        assert isinstance(invoker.invokerGet, Invoker), 'Invalid invoker %s' % invoker.invokerGet
         if Create.encoder in create and create.encoder is not None: return 
         # There is already an encoder, nothing to do.
+        if not isinstance(create.objType, TypeModel): return
+        assert isinstance(create.objType, TypeModel)
+        
+        if create.objType.propertyId:
+            invokerSelf = invoker.node.invokersGet.get(create.objType.propertyId)
+            if invokerSelf is None: invokerSelf = invoker.node.invokersDelete.get(create.objType.propertyId)
+        else: invokerSelf = None
+        if invokerSelf is None: invokerSelf = invoker.node.invokersUpdate.get(create.objType)
+
+        if not invokerSelf: return  # No invoker available
+        assert isinstance(invokerSelf, Invoker), 'Invalid invoker %s' % invokerSelf
        
         if create.specifiers is None: create.specifiers = []
-        create.specifiers.append(AttributeSelfPath(self.nameRef, invoker.invokerGet))
+        create.specifiers.append(AttributeSelfPath(self.nameRef, invokerSelf))
 
 # --------------------------------------------------------------------
 

@@ -9,7 +9,7 @@ Created on Sep 3, 2012
 The API specifications for the user authentication.
 '''
 
-from ally.api.config import service, call, INSERT, GET
+from ally.api.config import service, call, INSERT, GET, DELETE
 from ally.api.type import Iter
 from datetime import datetime
 from gateway.api.gateway import Gateway
@@ -68,6 +68,12 @@ class IAuthenticationService:
     def performLogin(self, authentication:Authentication) -> Login:
         '''
         Called in order to authenticate
+        '''
+        
+    @call(method=DELETE)
+    def performLogout(self, session:Login) -> bool:
+        '''
+        Called in order to terminate the login session.
         '''
         
     # ----------------------------------------------------------------

@@ -17,10 +17,10 @@ class ConflictError(InputError):
     ''' Error raise when there is a conflict of model data.'''
     
     def __init__(self, msg, target=None):
-        super().__init__(msg, target)
+        super().__init__(msg, target, errCode='conflict')
         
 class InvalidError(InputError):
     ''' Error raise when there is an invalid model data.'''
     
     def __init__(self, msg, target=None):
-        super().__init__(msg, target)
+        super().__init__(msg, target, errCode='invalid')
