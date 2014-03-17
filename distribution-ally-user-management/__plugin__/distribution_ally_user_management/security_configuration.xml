@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+	<Anonymous>
+		<Allows methods="GET">
+			<URL>/</URL>
+		</Allows>
+		<Allows methods="POST">
+			<URL>/Security/Authentication</URL>
+			<URL>/Security/Login</URL>
+		</Allows>
+	</Anonymous>
+	
+	<Right name="Users management">
+		<Allows methods="GET">
+			<URL>HR/User/</URL>
+			<URL>HR/User/*</URL>
+		</Allows>
+		
+		<Allows methods="PUT, PATCH">
+			<URL>HR/User/*</URL>
+		</Allows>
+
+		<Allows methods="POST">
+			<URL>HR/User/</URL>
+		</Allows>
+
+		<Description>
+		Allows for the users management.
+		</Description>
+	</Right>
+</Config>

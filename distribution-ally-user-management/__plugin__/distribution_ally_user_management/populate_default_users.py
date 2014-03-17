@@ -1,7 +1,7 @@
 '''
 Created on Mar 5, 2014
 
-@package: distribution-ally-user-management
+@package: ally user management
 @copyright: 2014 Sourcefabric o.p.s.
 @license: http://www.gnu.org/licenses/gpl-3.0.txt
 @author: Mugur Rus
