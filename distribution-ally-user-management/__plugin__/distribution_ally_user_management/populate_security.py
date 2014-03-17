@@ -28,8 +28,8 @@ from ..hr import service
 # --------------------------------------------------------------------
 @ioc.before(configurationStreams)
 def updateConfigurationStreamsForDistribution():
-    content = pkgutil.get_data('__plugin__.distribution_ally_user_management', 'security/configuration.xml')
-    configurationStreams().append(('file://.../security/configuration.xml', BytesIO(content)))
+    content = pkgutil.get_data('__plugin__.distribution_ally_user_management', 'security_configuration.xml')
+    configurationStreams().append(('file://.../security_configuration.xml', BytesIO(content)))
 
 @ioc.replace(ioc.entityOf('userService', module=service))
 def userService(original):
