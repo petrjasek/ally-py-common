@@ -14,13 +14,14 @@ import logging
 from __setup__.ally_core.processor import methodAllow
 from __setup__.ally_core_http.processor import updateHeadersCors, \
     headersCorsAllow, read_from_params, updateAssemblyResources, \
-    assemblyResources
+    assemblyResources, statusCodeToStatus, statusCodeToText
 from __setup__.ally_http.processor import contentTypeResponseEncode
 from ally.container import ioc
 from ally.design.processor.handler import Handler
 
 from ally.core.http_patch.impl.processor.headers.content_type import ContentTypeResponseEncodeHandler
 from ally.core.http_patch.impl.processor.method_patch import MethodPatchHandler
+from ally.core.spec.codes import INPUT_ERROR
 
 
 # --------------------------------------------------------------------
@@ -46,6 +47,16 @@ def contentTypeResponseEncodeNoCharSet() -> Handler: return ContentTypeResponseE
 def methodPatch() -> Handler: return MethodPatchHandler()
 
 # --------------------------------------------------------------------
+
+@ioc.before(statusCodeToText)
+def updateStatusCodeToText():
+    statusCodeToText()[INPUT_ERROR.code] = lambda method, hasContent: None if hasContent else 'Not Found'
+    # Changing to HTTP code 402 Not Found
+    
+@ioc.before(statusCodeToStatus)
+def updateStatusCodeToStatus():
+    statusCodeToStatus()[INPUT_ERROR.code] = lambda method, hasContent: 400 if hasContent else 404
+    # Changing to HTTP code 402 Not Found
 
 # TODO: remove this when the gateway is UP.
 @ioc.after(updateHeadersCors)
