@@ -39,7 +39,7 @@ def refUpdateEncode() -> Handler: return RefUpdateEncode()
 def sliceRenameAttributeEncode() -> Handler: return SliceRenameAttributeEncode()
 
 # --------------------------------------------------------------------
-
+    
 @ioc.after(updateAssemblyExtensionAttribute)
 def updateAssemblyExtensionAttributePatch():
     assemblyExtensionAttribute().add(sliceRenameAttributeEncode(), before=propertyEncode())

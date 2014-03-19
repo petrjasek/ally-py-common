@@ -108,7 +108,7 @@ class AuthenticationServiceAlchemy(SessionSupport, IAuthenticationService, IClea
         sql = sql.filter(LoginMapped.Session == session)
         sql = sql.filter(LoginMapped.AccessedOn > olderThan)
         try: login = sql.one()
-        except NoResultFound: raise InvalidError(_('Invalid session'), Login.Session)
+        except NoResultFound: return ()
         assert isinstance(login, LoginMapped), 'Invalid login %s' % login
         login.AccessedOn = current_timestamp()
         self.session().flush((login,))
