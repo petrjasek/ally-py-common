@@ -35,5 +35,4 @@ def pathGetAccesiblePut() -> Handler:
 
 @ioc.after(updateAssemblyAssemblerForHTTPCore)
 def updateAssemblyAssemblerForAccessiblePatch():
-    pass
-    #assemblyAssembler().add(pathGetAccesiblePost(), pathGetAccesiblePut(), after=pathGetAccesible())
+    assemblyAssembler().add(pathGetAccesiblePost(), pathGetAccesiblePut(), after=pathGetAccesible())
