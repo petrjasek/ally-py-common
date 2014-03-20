@@ -16,7 +16,7 @@
 			<URL>HR/User/*</URL>
 		</Allows>
 		
-		<Allows methods="PUT, PATCH">
+		<Allows methods="PUT, PATCH, DELETE">
 			<URL>HR/User/*</URL>
 		</Allows>
 
