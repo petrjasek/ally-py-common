@@ -18,6 +18,7 @@
 		
 		<Allows methods="PUT, PATCH, DELETE">
 			<URL>HR/User/*</URL>
+			<URL>HR/UserPassword/*</URL>
 		</Allows>
 
 		<Allows methods="POST">
