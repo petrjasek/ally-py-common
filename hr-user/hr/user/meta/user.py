@@ -10,7 +10,7 @@ Contains the SQL alchemy meta for user API.
 '''
 
 from ally.api.validate import validate, ReadOnly, Mandatory, Unique, EMail,\
-    PhoneNumber
+    PhoneNumber, UserName
 from sqlalchemy.dialects.mysql.base import INTEGER
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.schema import Column
@@ -22,7 +22,8 @@ from hr.user.api.user import User
 
 # --------------------------------------------------------------------
 
-@validate(Mandatory(User.Password), ReadOnly(User.CreatedOn), EMail(User.EMail), PhoneNumber(User.PhoneNumber))
+@validate(Mandatory(User.Password), ReadOnly(User.CreatedOn), UserName(User.UserName),
+          EMail(User.EMail), PhoneNumber(User.PhoneNumber))
 class UserMapped(Base, User):
     '''
     Provides the mapping for User entity.
