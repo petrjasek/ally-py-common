@@ -10,12 +10,13 @@ Populates the database with the default users.
 '''
 
 import hashlib
-from ally.container import app, support
+from ally.container import support, ioc
 from hr.user.api.user import IUserService, QUser, User
+from .populate_security import populateUsersRoles
 
 # --------------------------------------------------------------------
 
-@app.populate
+@ioc.after(populateUsersRoles)
 def populateDefaultUsers():
     userService = support.entityFor(IUserService)
     assert isinstance(userService, IUserService)

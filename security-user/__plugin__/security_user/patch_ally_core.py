@@ -24,8 +24,7 @@ try:
     from __setup__ import ally_core  # @UnusedImport
 except ImportError: log.info('No ally core component available, thus no need to register user ACL assemblers to it')
 else:
-    from __setup__.ally_core.resources import assemblyAssembler
-    from ..gateway_acl.patch_ally_core import indexFilter, updateAssemblyAssemblerForAccess
+    from ..gateway_acl.patch_ally_core import indexFilter, assemblyIndex, updateAssemblyIndex
 
     # The assembler processors
     filterUserInject = support.notCreated  # Just to avoid errors
@@ -33,6 +32,6 @@ else:
     
     # ----------------------------------------------------------------
     
-    @ioc.after(updateAssemblyAssemblerForAccess)
-    def updateAssemblyAssemblerForUserFilterInject():
-        assemblyAssembler().add(filterUserInject(), before=indexFilter())
+    @ioc.after(updateAssemblyIndex)
+    def updateAssemblyIndexForUserFilterInject():
+        assemblyIndex().add(filterUserInject(), before=indexFilter())

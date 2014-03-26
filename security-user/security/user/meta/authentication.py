@@ -24,7 +24,7 @@ class TokenMapped(Base, Token):
     Provides the mapping for Token authentication entity.
     '''
     __tablename__ = 'authentication_token'
-    __table_args__ = dict(mysql_engine='InnoDB', mysql_charset='utf8')
+    __table_args__ = dict(mysql_engine='InnoDB')
 
     Token = Column('token', String(190), primary_key=True)
 
@@ -36,7 +36,7 @@ class LoginMapped(Base, Login):
     Provides the mapping for Login entity.
     '''
     __tablename__ = 'authentication_login'
-    __table_args__ = dict(mysql_engine='InnoDB', mysql_charset='utf8')
+    __table_args__ = dict(mysql_engine='InnoDB')
 
     Session = Column('session', String(190), primary_key=True)
     User = Column('fk_user_id', ForeignKey(UserMapped.Id), nullable=False)

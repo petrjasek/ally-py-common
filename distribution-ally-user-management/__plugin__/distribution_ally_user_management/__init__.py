@@ -22,5 +22,6 @@ CLASSIFIERS = ['Development Status :: 4 - Beta']
 INSTALL_REQUIRES = ['ally-core-http >= 1.0', 'ally-plugin >= 1.0', 'ally-gui-core >= 1.0',
                     'ally-hr-user >= 1.0', 'ally-security-user >= 1.0', 'ally-indexing-provider >= 1.0',
                     'ally-patch-praha', 'ally-patch-praha-gateway >= 1.0', 'ally-http-mongrel2-server >= 1.0',
-                    'ally-documentation >= 1.0', 'ally-service-assemblage >= 1.0']
+                    'ally-documentation >= 1.0', 'ally-service-assemblage >= 1.0',
+                    'ally-support-testing >= 1.0']
 __extra__ = dict(package_data={'__plugin__.distribution_ally_user_management': ['*.xml']})
