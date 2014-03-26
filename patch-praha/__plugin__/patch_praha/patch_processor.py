@@ -17,7 +17,7 @@ from __setup__.ally_core_http.processor import updateHeadersCors, \
     assemblyResources, statusCodeToStatus, statusCodeToText
 from __setup__.ally_http.processor import contentTypeResponseEncode
 from ally.container import ioc
-from ally.core.spec.codes import INPUT_ERROR, DELETE_ERROR
+from ally.core.spec.codes import INPUT_ERROR, DELETE_ERROR, INPUT_ID_ERROR
 from ally.design.processor.handler import Handler
 
 from ally.core.http_patch.impl.processor.headers.content_type import ContentTypeResponseEncodeHandler
@@ -55,6 +55,7 @@ def updateStatusCodeToText():
     
 @ioc.before(statusCodeToStatus)
 def updateStatusCodeToStatus():
+    statusCodeToStatus()[INPUT_ID_ERROR.code] = 404
     statusCodeToStatus()[INPUT_ERROR.code] = lambda method, hasContent: 400 if hasContent else 404
     # Changing to HTTP code 402 Not Found
     statusCodeToStatus()[DELETE_ERROR.code] = 204
