@@ -96,7 +96,9 @@ class UserServiceAlchemy(EntityServiceAlchemy, IUserService):
         @see: IUserService.changePassword
         '''
         assert isinstance(password, Password), 'Invalid password change %s' % password
-        try: userDb = self.session().query(UserMapped).filter(UserMapped.Id == id).one()
+        try:
+            sql = self.session().query(UserMapped)
+            userDb = sql.filter(UserMapped.Id == id).filter(UserMapped.password == password.OldPassword).one()
         except NoResultFound: raise InvalidError(_('Invalid old password'), Password.OldPassword)
         assert isinstance(userDb, UserMapped), 'Invalid user %s' % userDb
         
