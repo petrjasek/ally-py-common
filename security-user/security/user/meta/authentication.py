@@ -39,7 +39,7 @@ class LoginMapped(Base, Login):
     __table_args__ = dict(mysql_engine='InnoDB')
 
     Session = Column('session', String(190), primary_key=True)
-    User = Column('fk_user_id', ForeignKey(UserMapped.Id), nullable=False)
+    User = Column('fk_user_id', ForeignKey(UserMapped.Id, ondelete='CASCADE'), nullable=False)
     CreatedOn = Column('created_on', DateTime, nullable=False)
     AccessedOn = Column('accessed_on', DateTime, nullable=False)
 
