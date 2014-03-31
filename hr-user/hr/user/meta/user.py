@@ -22,7 +22,8 @@ from hr.user.api.user import User
 
 # --------------------------------------------------------------------
 
-@validate(Mandatory(User.Password), ReadOnly(User.CreatedOn), UserName(User.UserName),
+@validate(Mandatory(User.FirstName), Mandatory(User.LastName), Mandatory(User.Password),
+          Mandatory(User.EMail), ReadOnly(User.CreatedOn), UserName(User.UserName),
           EMail(User.EMail), PhoneNumber(User.PhoneNumber))
 class UserMapped(Base, User):
     '''
