@@ -19,12 +19,14 @@ from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import String, DateTime, Boolean
 from hr.meta.metadata_hr import Base
 from hr.user.api.user import User
+from ally.api.config import UPDATE
 
 # --------------------------------------------------------------------
 
-@validate(Mandatory(User.FirstName), Mandatory(User.LastName), Mandatory(User.Password),
-          Mandatory(User.EMail), ReadOnly(User.CreatedOn), UserName(User.UserName),
-          EMail(User.EMail), PhoneNumber(User.PhoneNumber))
+@validate(Mandatory(User.UserName), UserName(User.UserName), ReadOnly(User.UserName, (UPDATE,)),
+          Mandatory(User.FirstName), Mandatory(User.LastName),  Mandatory(User.Password),
+          Mandatory(User.EMail), ReadOnly(User.CreatedOn), EMail(User.EMail),
+          PhoneNumber(User.PhoneNumber), lambda: Unique(UserMapped.EMail))
 class UserMapped(Base, User):
     '''
     Provides the mapping for User entity.
@@ -52,5 +54,3 @@ class UserMapped(Base, User):
                     case([(cls.LastName == None, cls.FirstName)], else_=cls.FirstName + ' ' + cls.LastName))
     # Non REST model attribute --------------------------------------
     password = Column('password', String(255), nullable=False)
-
-validate(Unique(UserMapped.EMail))(UserMapped)
