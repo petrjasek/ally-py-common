@@ -18,4 +18,4 @@ AUTHOR_EMAIL = 'gabriel.nistor@sourcefabric.org'
 KEYWORDS = ['Ally', 'REST', 'human', 'resources', 'plugin', 'users']
 DESCRIPTION = 'Provides the users services'
 LONG_DESCRIPTION = ''' User management functionality (model, service).'''
-INSTALL_REQUIRES = ['ally-api >= 1.0', 'ally-support-sqlalchemy >= 1.0']
+INSTALL_REQUIRES = ['ally-api >= 1.0', 'ally-support-sqlalchemy >= 1.0', 'ally-support-cdm >= 1.0']
