@@ -9,17 +9,18 @@ Created on Mar 6, 2012
 The API specifications for the user.
 '''
 
-from ally.api.config import service, query, UPDATE, call
-from ally.api.criteria import AsLikeOrdered, AsDateTimeOrdered, AsLike, \
-    AsBoolean
-from ally.support.api.entity_ided import IEntityService, QEntity, Entity
 from datetime import datetime
 
+from ally.api.config import service, query, UPDATE, call, INSERT
+from ally.api.criteria import AsLikeOrdered, AsDateTimeOrdered, AsLike, \
+    AsBoolean
+from ally.api.type import Reference, Scheme
+from ally.support.api.entity_ided import IEntityService, QEntity, Entity
 from hr.api.domain_hr import modelHR
-from ally.api.type import Reference
-
+from ally.api.model import Content
 
 # --------------------------------------------------------------------
+
 @modelHR
 class User(Entity):
     '''    
@@ -43,6 +44,17 @@ class Password:
     '''
     OldPassword = str
     NewPassword = str
+
+@modelHR
+class Avatar:
+    '''
+    Separate model for setting an avatar.
+    '''
+    URL = str
+    CropLeft = int
+    CropTop = int
+    CropRight = int
+    CropBottom = int
 
 # --------------------------------------------------------------------
 
@@ -69,8 +81,20 @@ class IUserService(IEntityService):
     User model service interface
     '''
     
+    @call
+    def getById(self, id:User.Id, scheme:Scheme)->User:
+        '''
+        @see: IEntityService.getById
+        '''
+        
     @call(method=UPDATE)
     def changePassword(self, id:User.Id, password:Password):
         '''
         Changes user password
+        '''
+    
+    @call(method=UPDATE)
+    def setAvatar(self, id:User.Id, avatar:Avatar, scheme:Scheme, picture:Content=None):
+        '''
+        Sets the user avatar
         '''

@@ -54,3 +54,4 @@ class UserMapped(Base, User):
                     case([(cls.LastName == None, cls.FirstName)], else_=cls.FirstName + ' ' + cls.LastName))
     # Non REST model attribute --------------------------------------
     password = Column('password', String(255), nullable=False)
+    avatarPath = Column('avatar_path', String(1024))

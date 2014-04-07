@@ -24,18 +24,24 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.sql.expression import or_
 
 from ally.api.error_p1 import ConflictError, InvalidError
-from hr.user.api.user import IUserService, QUser, User, Password
+from hr.user.api.user import IUserService, QUser, User, Password, Avatar
 from hr.user.meta.user import UserMapped
+from ally.api.model import Content
+from ally.cdm.spec import ICDM, PathNotFound
+from urllib.request import urlopen
 
 
 # --------------------------------------------------------------------
 @injected
-@setup(IUserService, name='userService')
 @validate(UserMapped)
+@setup(IUserService, name='userService')
 class UserServiceAlchemy(EntityServiceAlchemy, IUserService):
     '''
     Implementation for @see: IUserService
     '''
+    cdmAvatar = ICDM; wire.entity('cdmAvatar')
+    # the content delivery manager where to publish avatar
+    
     avatar_url = 'http://www.gravatar.com/avatar/%(hash_email)s?s=%(size)s'; wire.config('avatar_url', doc='''
     The url from where the avatar is loaded.''')
     default_avatar_size = 200; wire.config('default_avatar_size', doc='''
@@ -49,15 +55,23 @@ class UserServiceAlchemy(EntityServiceAlchemy, IUserService):
         '''
         assert isinstance(self.default_avatar_size, int), 'Invalid default user avatar image size %s' % self.default_avatar_size
         assert isinstance(self.allNames, set), 'Invalid all name %s' % self.allNames
+        assert isinstance(self.cdmAvatar, ICDM), 'Invalid CDM %s' % self.cdmAvatar
         EntityServiceAlchemy.__init__(self, UserMapped, QUser, all=self.queryAll, inactive=self.queryInactive)
     
-    def getById(self, identifier):
+    def getById(self, identifier, scheme='http'):
         user = super().getById(identifier)
-        assert isinstance(user, User)
+        assert isinstance(user, UserMapped)
         
-        if user.EMail and not user.Avatar:
+        if user.avatarPath:
+            try:
+                self.cdmAvatar.getMetadata(user.avatarPath)
+                user.Avatar = self.cdmAvatar.getURI(user.avatarPath, scheme)
+            except PathNotFound:
+                user.Avatar = user.avatarPath
+        elif user.EMail:
             user.Avatar = self.avatar_url % {'hash_email': hashlib.md5(user.EMail.lower().encode()).hexdigest(),
                                              'size': self.default_avatar_size}
+        
         return user
     
     def getAll(self, q=None, **options):
@@ -90,7 +104,7 @@ class UserServiceAlchemy(EntityServiceAlchemy, IUserService):
         userDb = insertModel(UserMapped, user, password=user.Password)
         assert isinstance(userDb, UserMapped), 'Invalid user %s' % userDb
         return userDb.Id
-   
+    
     def changePassword(self, id, password):
         '''
         @see: IUserService.changePassword
@@ -103,7 +117,30 @@ class UserServiceAlchemy(EntityServiceAlchemy, IUserService):
         assert isinstance(userDb, UserMapped), 'Invalid user %s' % userDb
         
         userDb.password = password.NewPassword
-
+    
+    def setAvatar(self, id, avatar, scheme='http', content=None):
+        '''
+        @see: IUserService.setAvatar
+        '''
+        assert isinstance(avatar, Avatar), 'Invalid avatar %s' % avatar
+        assert content is None or isinstance(content, Content), 'Invalid content %s' % content
+        
+        user = super().getById(id)
+        assert isinstance(user, UserMapped), 'Invalid user identifer %s' % id
+        
+        if avatar.URL:
+            try:
+                urlopen(avatar.URL)
+                user.avatarPath = avatar.URL
+            except ValueError:
+                raise InvalidError(_('Invalid avatar URL'))
+        elif content is not None:
+            user.avatarPath = '%s/%s' % (id, content.name)
+            self.cdmAvatar.publishContent(user.avatarPath, content, {})
+            avatar.URL = self.cdmAvatar.getURI(user.avatarPath, scheme)
+        else:
+            raise InvalidError(_('Avatar must be supplied'))
+    
     # ----------------------------------------------------------------
     
     def checkUser(self, user, userId=None):

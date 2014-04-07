@@ -11,7 +11,10 @@ Contains the setup user services.
 
 from ..plugin.registry import registerService
 from .database import binders
-from ally.container import support, bind
+from ally.container import support, bind, ioc
+from ally.cdm.spec import ICDM
+from ally.cdm.support import ExtendPathCDM
+from __plugin__.cdm.service import contentDeliveryManager
 
 # --------------------------------------------------------------------
 
@@ -21,3 +24,12 @@ bind.bindToEntities('hr.user.impl.**.*Alchemy', binders=binders)
 support.createEntitySetup('hr.user.impl.**.*')
 support.listenToEntities(SERVICES, listeners=registerService)
 support.loadAllEntities(SERVICES)
+
+# --------------------------------------------------------------------
+
+@ioc.entity
+def cdmAvatar() -> ICDM:
+    '''
+    The content delivery manager (CDM) for the avatars.
+    '''
+    return ExtendPathCDM(contentDeliveryManager(), 'avatar/%s')

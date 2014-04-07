@@ -14,7 +14,7 @@ import pkgutil
 
 from ally.api.error import InputError
 from ally.container import ioc, support, app
-from ally.container.impl.proxy import proxyWrapFor, IProxyHandler, \
+from ally.container.impl.proxy import IProxyHandler, \
     registerProxyHandler, ProxyFilter
 from security.rbac.api.role import IRoleService, Role
 from security.user.api.user_rbac import IUserRbacService
@@ -22,6 +22,7 @@ from security.user.api.user_rbac import IUserRbacService
 from ..gui_core.service import configurationStreams, assemblyGUIConfiguration, uriRepositoryCaching
 from ..gui_core.service import updateAssemblyConfiguration
 from ..hr import service
+from hr.user.api.user import IUserService
 
 
 # --------------------------------------------------------------------
@@ -34,25 +35,23 @@ def updateConfigurationStreamsForDistribution():
 def updateAssemblyConfigurationForTest():
     assemblyGUIConfiguration().remove(uriRepositoryCaching())
 
-@ioc.replace(ioc.entityOf('userService', module=service))
-def userService(original):
+@ioc.after(ioc.entityOf('userService', module=service))
+def userServiceUpdate():
     class AutoRolesProxy(IProxyHandler):
         ''' Automatically assign roles to new created users.'''
-        
+         
         def __init__(self, userRbacService):
             self.userRbacService = userRbacService
-        
+         
         def handle(self, execution):
             userId = execution.invoke()
             self.userRbacService.addRole(userId, 'Admin')
             return userId
-            
-    ioc.initialize(original)
-    service = proxyWrapFor(original)
+             
+    userService = support.entityFor(IUserService)
     handler = AutoRolesProxy(support.entityFor(IUserRbacService))
     handler = ProxyFilter(handler, 'insert')
-    registerProxyHandler(handler, service)
-    return service
+    registerProxyHandler(handler, userService)
 
 @app.populate(app.DEVEL)
 def populateUsersRoles():
