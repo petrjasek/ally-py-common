@@ -15,13 +15,17 @@
 			<URL>HR/User/</URL>
 			<URL>HR/User/*</URL>
 		</Allows>
-		
+
 		<Allows methods="PUT, PATCH, DELETE">
 			<URL>HR/User/*</URL>
 			<URL>HR/UserPassword/*</URL>
 		</Allows>
 
-		<Allows methods="POST">
+        <Allows methods="PUT">
+            <URL>HR/UserAvatar/*</URL>
+        </Allows>
+
+        <Allows methods="POST">
 			<URL>HR/User/</URL>
 		</Allows>
 
